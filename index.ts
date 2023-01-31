@@ -132,20 +132,11 @@ type StatusObject = {
 };
 
 export function getStatusObject(): StatusObject {
-  let returnObject: StatusObject = Object.keys(Status).reduce(
-    (acc: StatusObject, cur: string) => {
-      if (cur === Status.Initialized) {
-        acc[cur] = Status.Initialized;
-      } else if (cur === Status.Pending) {
-        acc[cur] = Status.Pending;
-      } else if (cur === Status.Complete) {
-        acc[cur] = Status.Complete;
-      }
-      return acc;
-    },
-    {}
-  );
-  return returnObject;
+  return Object.values(Status).reduce((statusObject, status) => {
+    return Object.assign(statusObject, status, {
+      [status]: status.toLowerCase(),
+    });
+  }, {});
 }
 /*
 7. 반환 타입을 반환하는 함수를 작성하세요.
@@ -168,16 +159,15 @@ export function getCars(): Car[] {
 
 // 반환 타입
 type TProgrammingLanguages = {
-  [key: number]: keyof typeof ProgrammingLanguage;
+  [key: number]: ProgrammingLanguage;
 };
 
 export function getProgrammingLanguages(): TProgrammingLanguages[] {
-  const returnValue: TProgrammingLanguages[] = Object.entries(
-    ProgrammingLanguage
-  ).map((data) => {
-    return { [data[0].length]: data[1] };
+  return Object.entries(ProgrammingLanguage).map(([_, language]) => {
+    return {
+      [language.length]: language,
+    };
   });
-  return returnValue;
 }
 
 /*
